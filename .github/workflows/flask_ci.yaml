@@ -1,0 +1,19 @@
+name: flask_api_ci
+on: [push]
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+      - uses: actions/setup-python@v3
+        with:
+         python-version: '3.x'
+      - name: Test
+        env:
+          REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          pip install --upgrade pip
+          pip install -r requirements.txt
+          python app.py
